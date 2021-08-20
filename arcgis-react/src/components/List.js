@@ -16,7 +16,7 @@ export default class List extends React.Component {
             Math.round(
               (this.props.results[index].attributes.dist + Number.EPSILON) * 100
             ) / 100
-          } ${this.props.options.units}`}
+          } ${this.props.units}`}
           onClick={() => {
             this.props.onSelection(this.props.results[index]);
           }}

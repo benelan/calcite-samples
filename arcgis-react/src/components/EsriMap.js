@@ -52,9 +52,8 @@ export default class EsriMap extends React.Component {
 
   loadMap() {
     const { graphicsLayer } = this.state
-    const { options, onResultsChange } = this.props;
+    const { radius, units, onResultsChange } = this.props;
     // this is not accessible inside of the load module function
-
     // init feature layer
     const facilitiesLayer = new FeatureLayer({
       url: "https://services.arcgis.com/Wl7Y1m92PbjtJs5n/ArcGIS/rest/services/hospitalTestData/FeatureServer/0",
@@ -113,8 +112,8 @@ export default class EsriMap extends React.Component {
     function findFacilities(loc, layer) {
       const query = layer.createQuery();
       query.returnGeometry = true; // return feature geometries
-      query.distance = options.radius; // chosen in the Options component
-      query.units = options.units; // chosen in the Options component
+      query.distance = radius; // chosen in the Options component
+      query.units = units; // chosen in the Options component
       query.outFields = ["*"]; // return all feature attributes
       query.geometry = loc; // query within a radius of the search location
       layer.queryFeatures(query).then((results) => {
@@ -162,7 +161,7 @@ export default class EsriMap extends React.Component {
         spatialReference: { wkid: 4326 },
       });
 
-      return geometryEngine.geodesicLength(polyline, options.units);
+      return geometryEngine.geodesicLength(polyline, units);
     }
 
     function displayLocations(features) {
@@ -194,7 +193,7 @@ export default class EsriMap extends React.Component {
             // readable distance string
             var d = `${
               Math.round((feature.attributes.dist + Number.EPSILON) * 100) / 100
-            } ${options.units}`;
+            } ${units}`;
             var div = document.createElement("div");
             div.innerHTML = `${d}<br><br><a href=${url} target="_blank">Directions</a>`;
             return div;

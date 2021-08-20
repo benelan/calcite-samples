@@ -2,6 +2,10 @@ import React from "react";
 import {
   CalciteShell,
   CalciteShellPanel,
+  CalciteLabel,
+  CalciteInput,
+  CalciteRadioGroup,
+  CalciteRadioGroupItem,
 } from "@esri/calcite-components-react";
 import "@esri/calcite-components/dist/calcite/calcite.css";
 
@@ -14,10 +18,8 @@ export default class App extends React.Component {
     this.handleResultsChange = this.handleResultsChange.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
     this.state = {
-      options: {
-        radius: 5,
-        units: "miles",
-      },
+      radius: 50,
+      units: "miles",
       results: [], // search features
       height: 0, // of the browser window
       searched: false, // populate list?
@@ -29,7 +31,15 @@ export default class App extends React.Component {
     // set height depending on how big the window is
     const height = this.divElement.clientHeight;
     this.setState({ height });
-    // device detection
+
+    window.addEventListener("calciteInputInput", (e) => {
+        console.log(e.target.value);
+        this.setState({ radius: e.target.value, results: [], searched: false });
+    });
+    window.addEventListener("calciteRadioGroupChange", (e) => {
+        console.log(e.detail);
+        this.setState({ units: e.detail, results: [], searched: false });
+    });
   }
 
   handleResultsChange(r) {
@@ -42,22 +52,53 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { radius, units, results, selected, searched, height } = this.state;
     return (
       <div
-        style={{ height: "100vh"}}
+        style={{ height: "80vh" }}
         ref={(divElement) => {
           this.divElement = divElement;
         }}
       >
-      <CalciteShell dir="ltr" class="calcite-theme-light">
-          <header style={{marginLeft:"1rem"}} slot="header">
-            <h2>Find Hospitals</h2>
+        <CalciteShell dir="ltr" class="calcite-theme-light">
+          <header style={{ marginLeft: "1rem" }} slot="header">
+            <div style={{ margin: ".25rem" }}>
+              <div
+                style={{
+                  width: "10rem",
+                  display: "inline-block",
+                  marginRight: "1rem",
+                }}
+              >
+                <CalciteLabel>
+                  Radius
+                  <CalciteInput
+                    type="number"
+                    value={radius}
+                  ></CalciteInput>
+                </CalciteLabel>
+              </div>
+              <div style={{ display: "inline-block" }}>
+                <CalciteLabel>
+                  Units
+                  <CalciteRadioGroup id="radio-group">
+                    <CalciteRadioGroupItem value="miles">
+                      Miles
+                    </CalciteRadioGroupItem>
+                    <CalciteRadioGroupItem value="kilometers">
+                      Kilometers
+                    </CalciteRadioGroupItem>
+                  </CalciteRadioGroup>
+                </CalciteLabel>
+              </div>
+            </div>
           </header>
           <EsriMap
-            options={this.state.options}
+            radius={radius}
+            units={units}
             onResultsChange={this.handleResultsChange}
-            h={this.state.height}
-            selected={this.state.selected}
+            h={height}
+            selected={selected}
           />
           <CalciteShellPanel
             slot="contextual-panel"
@@ -66,23 +107,23 @@ export default class App extends React.Component {
             width-scale="m"
             className="bg-color"
           >
-            {this.state.searched ? ( // if there are results show the total
-            <p>
-              There is a total of <b>{this.state.results.length}</b> hospitals
-              within{" "}
-              <b>
-                {this.state.options.radius} {this.state.options.units}
-              </b>
-              .
-            </p>
-          ) : (
-            // otherwise tell the user they need to search
-            "Search a location on the Map to find the nearest hospitals."
-          )}
+            {searched ? ( // if there are results show the total
+              <p>
+                There is a total of <b>{results.length}</b> hospitals within{" "}
+                <b>
+                  {radius} {units}
+                </b>
+                .
+              </p>
+            ) : (
+              // otherwise tell the user they need to search
+              "Search a location on the Map to find the nearest hospitals."
+            )}
             <List
-              results={this.state.results}
-              options={this.state.options}
-              h={this.state.height}
+              results={results}
+              radius={radius}
+              units={units}
+              h={height}
               onSelection={this.handleSelection}
             />
           </CalciteShellPanel>
