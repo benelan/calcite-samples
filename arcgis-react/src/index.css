@@ -1,5 +1,12 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
+:root {
+  --main-bg-color: #E2FBF1;
+}
+.bg-color {
+  background: var(--main-bg-color)
+}
+
 html,
 body,
 #viewDiv {
@@ -8,9 +15,8 @@ body,
   height: 100%;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  background: #E2FBF1;
+  background: var(--main-bg-color);
 }
-
 
 a,
 a:hover,

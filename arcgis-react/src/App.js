@@ -44,28 +44,15 @@ export default class App extends React.Component {
   render() {
     return (
       <div
-        style={{ height: "70vh" }}
+        style={{ height: "100vh"}}
         ref={(divElement) => {
           this.divElement = divElement;
         }}
       >
-        <CalciteShell dir="ltr" class="calcite-theme-light">
-          <header slot="header">
-            <h2>Marble Reality</h2>
+      <CalciteShell dir="ltr" class="calcite-theme-light">
+          <header style={{marginLeft:"1rem"}} slot="header">
+            <h2>Find Hospitals</h2>
           </header>
-          {this.state.searched ? ( // if there are results show the total
-            <React.Fragment>
-              There is a total of <b>{this.state.results.length}</b> hospitals
-              within{" "}
-              <b>
-                {this.state.options.radius} {this.state.options.units}
-              </b>
-              .
-            </React.Fragment>
-          ) : (
-            // otherwise tell the user they need to search
-            "Search a location on the Map to find the nearest hospitals."
-          )}
           <EsriMap
             options={this.state.options}
             onResultsChange={this.handleResultsChange}
@@ -77,7 +64,21 @@ export default class App extends React.Component {
             position="end"
             detached-height-scale="l"
             width-scale="m"
+            className="bg-color"
           >
+            {this.state.searched ? ( // if there are results show the total
+            <p>
+              There is a total of <b>{this.state.results.length}</b> hospitals
+              within{" "}
+              <b>
+                {this.state.options.radius} {this.state.options.units}
+              </b>
+              .
+            </p>
+          ) : (
+            // otherwise tell the user they need to search
+            "Search a location on the Map to find the nearest hospitals."
+          )}
             <List
               results={this.state.results}
               options={this.state.options}

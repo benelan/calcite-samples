@@ -1,5 +1,6 @@
 import React from "react";
 import { loadModules, setDefaultOptions } from "esri-loader";
+
 export default class EsriMap extends React.Component {
   state = {
     map: null,
@@ -17,31 +18,30 @@ export default class EsriMap extends React.Component {
   }
 
   componentDidUpdate(nextProps) {
-    // this section is for zooming to and selecting a point
-    // when the corresponding feature is clicked in the List component
     const { selected } = this.props;
 
     if (nextProps.selected !== selected) {
       if (selected) {
         this.state.view.goTo({ target: selected.geometry, zoom: 15 }); // go to feature
 
-        // if a feature is already highlighted
-        // remove it
+        // remove a feature if it is already highlighted
         if (this.state.highlight) {
-          this.state.highlight.remove(); // this part is not actually removing the highlight
+          this.state.highlight.remove();
           this.setState({ highlight: null });
         }
 
         // find the feature that was clicked on based on the geometry
         // could cause issues if there are two hospitals in the exact same spot
         // for some reason the attributes weren't showing up so I couldn't use OBJECTID
-        let sg = this.state.graphicsLayer.graphics.items.filter(function (g) {
-          return g.geometry === selected.geometry;
-        });
-        if (sg.length > 0) {
+        let selectedGeometry = this.state.graphicsLayer.graphics.items.filter(
+          (g) => {
+            return g.geometry === selected.geometry;
+          }
+        );
+        if (selectedGeometry.length > 0) {
           // highlights the graphic
-          let h = this.state.graphicsLayerView.highlight(sg[0]);
-          this.setState({highlight: h})
+          let h = this.state.graphicsLayerView.highlight(selectedGeometry[0]);
+          this.setState({ highlight: h });
         }
       }
     }
@@ -75,8 +75,7 @@ export default class EsriMap extends React.Component {
 
         // init feature layer
         const facilitiesLayer = new FeatureLayer({
-          url:
-            "https://services.arcgis.com/Wl7Y1m92PbjtJs5n/ArcGIS/rest/services/hospitalTestData/FeatureServer/0",
+          url: "https://services.arcgis.com/Wl7Y1m92PbjtJs5n/ArcGIS/rest/services/hospitalTestData/FeatureServer/0",
           outFields: ["*"],
         });
 
@@ -92,9 +91,8 @@ export default class EsriMap extends React.Component {
           map: that.state.map,
           zoom: 4,
           center: [-99, 37],
-          popup: {collapseEnabled: false}
+          popup: { collapseEnabled: false },
         });
-
 
         // init search widget
         that.state.search = new Search({
@@ -176,7 +174,7 @@ export default class EsriMap extends React.Component {
         /***
          * To calculate distance between two points using geodesic length
          * Need to create a polyline between the two points, then calculate
-         * The geodesic lenght of the polyline
+         * The geodesic length of the polyline
          ***/
         function getDistance(searchPoint, facilityLocation) {
           var polyline = new Polyline({
@@ -194,57 +192,33 @@ export default class EsriMap extends React.Component {
         }
 
         function displayLocations(features) {
-          // clear existing graphics first
+          // clear existing graphics
           that.state.graphicsLayer.removeAll();
-
-          // var symbol = {
-          //   type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-          //   url: 'place.com/thing.jpg',
-          //   width: "64px",
-          //   height: "64px"
-          // };
-
           // create a marker using svg path
           const facilitySymbol = {
             type: "simple-marker",
-            path:
-              "M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z",
+            path: "M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z",
             color: "#5cb85c",
             // path: "M15.999 0C11.214 0 8 1.805 8 6.5v17l7.999 8.5L24 23.5v-17C24 1.805 20.786 0 15.999 0zM16 14.402A4.4 4.4 0 0 1 11.601 10a4.4 4.4 0 1 1 8.798 0A4.4 4.4 0 0 1 16 14.402z",
             //color: "#9900ff",
             size: "16px",
           };
 
-          // for each feature being added to the map
+          // create graphics for each feature
           features.forEach((feature) => {
-            // create a graphic
             const graphic = new Graphic({
               geometry: feature.geometry,
               symbol: facilitySymbol,
             });
 
-            let url = "";
-            console.log(feature);
-            if (
-              // if we're on iOS, open in Apple Maps
-              navigator.platform.indexOf("iPhone") !== -1 ||
-              navigator.platform.indexOf("iPad") !== -1 ||
-              navigator.platform.indexOf("iPod") !== -1
-            )
-              url = `maps://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
-            // else use Google
-            else
-              url = `https://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
+            // google maps directions link
+            let url = `maps://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
 
-            // and add a popup
             graphic.popupTemplate = {
               title: feature.attributes.NAME,
               content: function () {
-                var d =
-                  Math.round((feature.attributes.dist + Number.EPSILON) * 100) /
-                    100 +
-                  " " +
-                  that.props.options.units;
+                // readable distance string
+                var d = `${Math.round((feature.attributes.dist + Number.EPSILON)*100)/100} ${that.props.options.units}`;
                 var div = document.createElement("div");
                 div.innerHTML = `${d}<br><br><a href=${url} target="_blank">Directions</a>`;
                 return div;
