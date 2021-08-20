@@ -16,7 +16,7 @@ export default class App extends React.Component {
     this.handleResultsChange = this.handleResultsChange.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
     this.state = {
-      radius: 25,
+      radius: 15,
       units: "miles",
       results: [], // search features
       height: 0, // of the browser window

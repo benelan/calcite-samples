@@ -22,7 +22,7 @@ export default class EsriMap extends React.Component {
 
   componentDidUpdate(nextProps) {
     const { selected } = this.props;
-    const { highlight, graphicsLayer, graphicsLayerView, mapView } = this.state
+    const { highlight, graphicsLayer, graphicsLayerView, mapView } = this.state;
     if (nextProps.selected !== selected) {
       if (selected) {
         mapView.goTo({ target: selected.geometry, zoom: 15 }); // go to feature
@@ -36,11 +36,9 @@ export default class EsriMap extends React.Component {
         // find the feature that was clicked on based on the geometry
         // could cause issues if there are two hospitals in the exact same spot
         // for some reason the attributes weren't showing up so I couldn't use OBJECTID
-        let selectedGeometry = graphicsLayer.graphics.items.filter(
-          (g) => {
-            return g.geometry === selected.geometry;
-          }
-        );
+        let selectedGeometry = graphicsLayer.graphics.items.filter((g) => {
+          return g.geometry === selected.geometry;
+        });
         if (selectedGeometry.length > 0) {
           // highlights the graphic
           let h = graphicsLayerView.highlight(selectedGeometry[0]);
@@ -51,7 +49,7 @@ export default class EsriMap extends React.Component {
   }
 
   loadMap() {
-    const { graphicsLayer } = this.state
+    const { graphicsLayer } = this.state;
     // this is not accessible inside of the load module function
     // init feature layer
     const facilitiesLayer = new FeatureLayer({
@@ -61,53 +59,116 @@ export default class EsriMap extends React.Component {
 
     const map = new ArcGISMap({
       basemap: "topo",
-      layers: [graphicsLayer]
-    })
+      layers: [graphicsLayer],
+    });
 
     const view = new MapView({
       map,
-      container:
-      "viewDiv",
+      container: "viewDiv",
       zoom: 4,
       center: [-99, 37],
-      popup: { collapseEnabled: false }
-    })
+      popup: { collapseEnabled: false },
+    });
 
-    this.setState({ mapView: view })
+    this.setState({ mapView: view });
 
     // init search widget
     const searchWidget = new Search({
       view: view,
       popupEnabled: false,
-      goToOverride: () => { return }
+      goToOverride: () => {
+        return;
+      },
     });
 
-    // when the view is finished loading
-    view.when(() => {
-      // add the search widget
-      view.ui.move([ "zoom" ], "top-right");
-      view.ui.add(searchWidget, {
-        position: "top-left",
-        index: 2,
-      });
-
-      // run query after search completes
-      // use search result location as the query center location
-      searchWidget.on("search-complete", (event) =>
-        // pass the search results location and the feature layer to query
-        this.findFacilities(
-          event.results[0].results[0].feature.geometry,
-          facilitiesLayer,
-          view
-        )
-      );
-      // creating layerview for highlighting
-      view
-        .whenLayerView(graphicsLayer)
-        .then((layerView) => {
-          this.setState({graphicsLayerView: layerView});
-        });
+    // add the search widget
+    view.ui.move(["zoom"], "top-right");
+    view.ui.add(searchWidget, {
+      position: "top-left",
+      index: 2,
     });
+
+    // run query after search completes
+    // use search result location as the query center location
+    searchWidget.on("search-complete", (event) =>
+      // pass the search results location and the feature layer to query
+      this.findFacilities(
+        event.results[0].results[0].feature.geometry,
+        facilitiesLayer,
+        view
+      )
+    );
+    // layerview for highlighting
+    view.whenLayerView(graphicsLayer).then((layerView) => {
+      this.setState({ graphicsLayerView: layerView });
+    });
+  }
+
+  // query nearby facilities within a certain radius
+  findFacilities(loc, layer, view) {
+    const { units, radius } = this.props;
+    const query = layer.createQuery();
+    query.returnGeometry = true; // return feature geometries
+    query.distance = radius; // chosen in the Options component
+    query.units = units; // chosen in the Options component
+    query.outFields = ["*"]; // return all feature attributes
+    query.geometry = loc; // query within a radius of the search location
+    layer
+      .queryFeatures(query)
+      .then((results) => {
+        // if there are hospitals in the radius
+        if (results.features.length) {
+          layer.queryExtent(query).then(function (results) {
+            // go to the extent of the results satisfying the query
+            view.goTo(results.extent);
+          });
+
+          const res = this.sortResults(results, loc);
+
+          // populate map with the results
+          this.displayLocations(res);
+          // change the Search component's 'results' state so that the List component populates
+          this.props.onResultsChange(res);
+        } else {
+          // if there are no results, set the results to nothing and zoom to the search location
+          this.props.onResultsChange([]);
+          view.goTo({ target: loc, zoom: 10 });
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+
+  // sorts the results by distance from search location
+  sortResults(results, searchLocation) {
+    // init res array used for sorting by closest distance to search location
+    let res = [];
+    // for each feature in the results
+    results.features.forEach((feature) => {
+      // calculate the distance between the feature and the search location
+      const dist = this.getDistance(searchLocation, feature.geometry);
+      // add the dist as a new attribute in the res array
+      feature.attributes.dist = dist;
+      res.push(feature);
+    });
+    // sort the res array by dist
+    return res.sort((a, b) => (a.attributes.dist > b.attributes.dist ? 1 : -1));
+  }
+
+  getDistance(searchPoint, facilityLocation) {
+    /***
+     * To calculate distance between two points using geodesic length
+     * Need to create a polyline between the two points, then calculate
+     * The geodesic length of the polyline
+     ***/
+    var polyline = new Polyline({
+      paths: [
+        [searchPoint.longitude, searchPoint.latitude],
+        [facilityLocation.longitude, facilityLocation.latitude],
+      ],
+      spatialReference: { wkid: 4326 },
+    });
+
+    return geometryEngine.geodesicLength(polyline, this.props.units);
   }
 
   // add features to a graphics layer and display them on map
@@ -136,12 +197,12 @@ export default class EsriMap extends React.Component {
 
       graphic.popupTemplate = {
         title: feature.attributes.NAME,
-        content: function () {
+        content: () => {
           // readable distance string
-          var d = `${
+          const d = `${
             Math.round((feature.attributes.dist + Number.EPSILON) * 100) / 100
           } ${this.props.units}`;
-          var div = document.createElement("div");
+          const div = document.createElement("div");
           div.innerHTML = `${d}<br><br><a href=${url} target="_blank">Directions</a>`;
           return div;
         },
@@ -149,62 +210,6 @@ export default class EsriMap extends React.Component {
       this.state.graphicsLayer.add(graphic);
     });
   }
-
-    // query nearby facilities within a certain radius
-    findFacilities(loc, layer, view) {
-      const query = layer.createQuery();
-      query.returnGeometry = true; // return feature geometries
-      query.distance = this.props.radius; // chosen in the Options component
-      query.units = this.props.units; // chosen in the Options component
-      query.outFields = ["*"]; // return all feature attributes
-      query.geometry = loc; // query within a radius of the search location
-      layer.queryFeatures(query).then((results) => {
-        // if there are hospitals in the radius
-        if (results.features.length) {
-          layer.queryExtent(query).then(function (results) {
-            // go to the extent of the results satisfying the query
-            view.goTo(results.extent);
-          });
-          // init res array used for sorting by closest distance to search location
-          let res = [];
-          // for each feature in the results
-          results.features.forEach((feature) => {
-            // calculate the distance between the feature and the search location
-            const dist = this.getDistance(loc, feature.geometry);
-            // add the dist as a new attribute in the res array
-            feature.attributes.dist = dist;
-            res.push(feature);
-          });
-          // sort the res array by dist
-          res.sort((a, b) => (a.attributes.dist > b.attributes.dist ? 1 : -1));
-          // populate map with the results
-          this.displayLocations(res);
-          // change the Search component's 'results' state so that the List component populates
-          this.props.onResultsChange(res);
-        } else {
-          // if there are no results, set the results to nothing and zoom to the search location
-          this.props.onResultsChange([]);
-          view.goTo({ target: loc, zoom: 10 });
-        }
-      });
-    }
-
-    /***
-     * To calculate distance between two points using geodesic length
-     * Need to create a polyline between the two points, then calculate
-     * The geodesic length of the polyline
-     ***/
-    getDistance(searchPoint, facilityLocation) {
-      var polyline = new Polyline({
-        paths: [
-          [searchPoint.longitude, searchPoint.latitude],
-          [facilityLocation.longitude, facilityLocation.latitude],
-        ],
-        spatialReference: { wkid: 4326 },
-      });
-
-      return geometryEngine.geodesicLength(polyline, this.props.units);
-    }
 
   render() {
     return <div id="viewDiv"></div>;
