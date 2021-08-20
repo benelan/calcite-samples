@@ -7,8 +7,6 @@ import {
   CalciteRadioGroup,
   CalciteRadioGroupItem,
 } from "@esri/calcite-components-react";
-import "@esri/calcite-components/dist/calcite/calcite.css";
-
 import EsriMap from "./components/EsriMap";
 import List from "./components/List";
 
@@ -18,7 +16,7 @@ export default class App extends React.Component {
     this.handleResultsChange = this.handleResultsChange.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
     this.state = {
-      radius: 50,
+      radius: 25,
       units: "miles",
       results: [], // search features
       height: 0, // of the browser window
@@ -126,7 +124,7 @@ export default class App extends React.Component {
               onSelection={this.handleSelection}
             />
           </CalciteShellPanel>
-          <footer slot="footer" style={{marginLeft: '.25rem'}}>Oak Ridge National Laboratory (ORNL), National Geospatial-Intelligence Agency (NGA) Homeland Security Infrastructure Program (HSIP) Team</footer>
+          <footer slot="footer" style={{marginLeft: '.25rem', fontSize:"10px"}}>Oak Ridge National Laboratory (ORNL), National Geospatial-Intelligence Agency (NGA) Homeland Security Infrastructure Program (HSIP) Team</footer>
         </CalciteShell>
       </div>
     );

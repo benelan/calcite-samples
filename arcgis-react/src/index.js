@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "@esri/calcite-components/dist/calcite/calcite.css";
 import './index.css';
 import App from './App';
 import { applyPolyfills, defineCustomElements } from '@esri/calcite-components/dist/loader';
