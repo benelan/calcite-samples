@@ -33,12 +33,12 @@ export default class App extends React.Component {
     this.setState({ height });
 
     window.addEventListener("calciteInputInput", (e) => {
-        console.log(e.target.value);
-        this.setState({ radius: e.target.value, results: [], searched: false });
+      console.log(e.target.value);
+      this.setState({ radius: e.target.value, results: [], searched: false });
     });
     window.addEventListener("calciteRadioGroupChange", (e) => {
-        console.log(e.detail);
-        this.setState({ units: e.detail, results: [], searched: false });
+      console.log(e.detail);
+      this.setState({ units: e.detail, results: [], searched: false });
     });
   }
 
@@ -72,10 +72,7 @@ export default class App extends React.Component {
               >
                 <CalciteLabel>
                   Radius
-                  <CalciteInput
-                    type="number"
-                    value={radius}
-                  ></CalciteInput>
+                  <CalciteInput type="number" value={radius}></CalciteInput>
                 </CalciteLabel>
               </div>
               <div style={{ display: "inline-block" }}>
@@ -107,18 +104,20 @@ export default class App extends React.Component {
             width-scale="m"
             className="bg-color"
           >
-            {searched ? ( // if there are results show the total
-              <p>
-                There is a total of <b>{results.length}</b> hospitals within{" "}
-                <b>
-                  {radius} {units}
-                </b>
-                .
-              </p>
-            ) : (
-              // otherwise tell the user they need to search
-              "Search a location on the Map to find the nearest hospitals."
-            )}
+            <div style={{ marginLeft: ".5rem" }}>
+              {searched ? ( // if there are results show the total
+                <p>
+                  There is a total of <b>{results.length}</b> nursing homes within{" "}
+                  <b>
+                    {radius} {units}
+                  </b>
+                  .
+                </p>
+              ) : (
+                // otherwise tell the user they need to search
+                "Search a location on the Map to find the nearest nursing homes."
+              )}
+            </div>
             <List
               results={results}
               radius={radius}
@@ -127,6 +126,7 @@ export default class App extends React.Component {
               onSelection={this.handleSelection}
             />
           </CalciteShellPanel>
+          <footer slot="footer" style={{marginLeft: '.25rem'}}>Oak Ridge National Laboratory (ORNL), National Geospatial-Intelligence Agency (NGA) Homeland Security Infrastructure Program (HSIP) Team</footer>
         </CalciteShell>
       </div>
     );

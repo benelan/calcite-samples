@@ -56,7 +56,7 @@ export default class EsriMap extends React.Component {
     // this is not accessible inside of the load module function
     // init feature layer
     const facilitiesLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/Wl7Y1m92PbjtJs5n/ArcGIS/rest/services/hospitalTestData/FeatureServer/0",
+      url: "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/NursingHomes/FeatureServer/0",
       outFields: ["*"],
     });
 
@@ -86,8 +86,9 @@ export default class EsriMap extends React.Component {
     // when the view is finished loading
     view.when(() => {
       // add the search widget
+      view.ui.move([ "zoom" ], "top-right");
       view.ui.add(searchWidget, {
-        position: "top-right",
+        position: "top-left",
         index: 2,
       });
 
