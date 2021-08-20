@@ -52,7 +52,6 @@ export default class EsriMap extends React.Component {
 
   loadMap() {
     const { graphicsLayer } = this.state
-    const { radius, units, onResultsChange } = this.props;
     // this is not accessible inside of the load module function
     // init feature layer
     const facilitiesLayer = new FeatureLayer({
@@ -96,9 +95,10 @@ export default class EsriMap extends React.Component {
       // use search result location as the query center location
       searchWidget.on("search-complete", (event) =>
         // pass the search results location and the feature layer to query
-        findFacilities(
+        this.findFacilities(
           event.results[0].results[0].feature.geometry,
-          facilitiesLayer
+          facilitiesLayer,
+          view
         )
       );
       // creating layerview for highlighting
@@ -108,13 +108,54 @@ export default class EsriMap extends React.Component {
           this.setState({graphicsLayerView: layerView});
         });
     });
+  }
+
+  // add features to a graphics layer and display them on map
+  displayLocations(features) {
+    // clear existing graphics
+    this.state.graphicsLayer.removeAll();
+    // create a marker using svg path
+    const facilitySymbol = {
+      type: "simple-marker",
+      path: "M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z",
+      color: "#007AC2",
+      // path: "M15.999 0C11.214 0 8 1.805 8 6.5v17l7.999 8.5L24 23.5v-17C24 1.805 20.786 0 15.999 0zM16 14.402A4.4 4.4 0 0 1 11.601 10a4.4 4.4 0 1 1 8.798 0A4.4 4.4 0 0 1 16 14.402z",
+      //color: "#9900ff",
+      size: "16px",
+    };
+
+    // create graphics for each feature
+    features.forEach((feature) => {
+      const graphic = new Graphic({
+        geometry: feature.geometry,
+        symbol: facilitySymbol,
+      });
+
+      // google maps directions link
+      let url = `maps://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
+
+      graphic.popupTemplate = {
+        title: feature.attributes.NAME,
+        content: function () {
+          // readable distance string
+          var d = `${
+            Math.round((feature.attributes.dist + Number.EPSILON) * 100) / 100
+          } ${this.props.units}`;
+          var div = document.createElement("div");
+          div.innerHTML = `${d}<br><br><a href=${url} target="_blank">Directions</a>`;
+          return div;
+        },
+      };
+      this.state.graphicsLayer.add(graphic);
+    });
+  }
 
     // query nearby facilities within a certain radius
-    function findFacilities(loc, layer) {
+    findFacilities(loc, layer, view) {
       const query = layer.createQuery();
       query.returnGeometry = true; // return feature geometries
-      query.distance = radius; // chosen in the Options component
-      query.units = units; // chosen in the Options component
+      query.distance = this.props.radius; // chosen in the Options component
+      query.units = this.props.units; // chosen in the Options component
       query.outFields = ["*"]; // return all feature attributes
       query.geometry = loc; // query within a radius of the search location
       layer.queryFeatures(query).then((results) => {
@@ -129,7 +170,7 @@ export default class EsriMap extends React.Component {
           // for each feature in the results
           results.features.forEach((feature) => {
             // calculate the distance between the feature and the search location
-            const dist = getDistance(loc, feature.geometry);
+            const dist = this.getDistance(loc, feature.geometry);
             // add the dist as a new attribute in the res array
             feature.attributes.dist = dist;
             res.push(feature);
@@ -137,12 +178,12 @@ export default class EsriMap extends React.Component {
           // sort the res array by dist
           res.sort((a, b) => (a.attributes.dist > b.attributes.dist ? 1 : -1));
           // populate map with the results
-          displayLocations(res);
+          this.displayLocations(res);
           // change the Search component's 'results' state so that the List component populates
-          onResultsChange(res);
+          this.props.onResultsChange(res);
         } else {
           // if there are no results, set the results to nothing and zoom to the search location
-          onResultsChange([]);
+          this.props.onResultsChange([]);
           view.goTo({ target: loc, zoom: 10 });
         }
       });
@@ -153,7 +194,7 @@ export default class EsriMap extends React.Component {
      * Need to create a polyline between the two points, then calculate
      * The geodesic length of the polyline
      ***/
-    function getDistance(searchPoint, facilityLocation) {
+    getDistance(searchPoint, facilityLocation) {
       var polyline = new Polyline({
         paths: [
           [searchPoint.longitude, searchPoint.latitude],
@@ -162,48 +203,8 @@ export default class EsriMap extends React.Component {
         spatialReference: { wkid: 4326 },
       });
 
-      return geometryEngine.geodesicLength(polyline, units);
+      return geometryEngine.geodesicLength(polyline, this.props.units);
     }
-
-    function displayLocations(features) {
-      // clear existing graphics
-      graphicsLayer.removeAll();
-      // create a marker using svg path
-      const facilitySymbol = {
-        type: "simple-marker",
-        path: "M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z",
-        color: "#007AC2",
-        // path: "M15.999 0C11.214 0 8 1.805 8 6.5v17l7.999 8.5L24 23.5v-17C24 1.805 20.786 0 15.999 0zM16 14.402A4.4 4.4 0 0 1 11.601 10a4.4 4.4 0 1 1 8.798 0A4.4 4.4 0 0 1 16 14.402z",
-        //color: "#9900ff",
-        size: "16px",
-      };
-
-      // create graphics for each feature
-      features.forEach((feature) => {
-        const graphic = new Graphic({
-          geometry: feature.geometry,
-          symbol: facilitySymbol,
-        });
-
-        // google maps directions link
-        let url = `maps://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
-
-        graphic.popupTemplate = {
-          title: feature.attributes.NAME,
-          content: function () {
-            // readable distance string
-            var d = `${
-              Math.round((feature.attributes.dist + Number.EPSILON) * 100) / 100
-            } ${units}`;
-            var div = document.createElement("div");
-            div.innerHTML = `${d}<br><br><a href=${url} target="_blank">Directions</a>`;
-            return div;
-          },
-        };
-        graphicsLayer.add(graphic);
-      });
-    }
-  }
 
   render() {
     return <div id="viewDiv"></div>;

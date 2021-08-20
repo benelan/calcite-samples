@@ -10,7 +10,7 @@ export default class List extends React.Component {
     const Item = memo(({ index }) => (
       <>
         <CalciteListItem
-          style={{ marginBottom: "5px", height: "50px" }}
+          style={{ marginBottom: "5px", height: "60px" }}
           label={this.props.results[index].attributes.NAME}
           description={`${
             Math.round(
@@ -36,7 +36,7 @@ export default class List extends React.Component {
         <VirtualScroll
           itemCount={this.props.results.length}
           height={this.props.h}
-          childHeight={55}
+          childHeight={65}
           Item={Item}
         />
       </CalciteList>

@@ -31,11 +31,9 @@ export default class App extends React.Component {
     this.setState({ height });
 
     window.addEventListener("calciteInputInput", (e) => {
-      console.log(e.target.value);
       this.setState({ radius: e.target.value, results: [], searched: false });
     });
     window.addEventListener("calciteRadioGroupChange", (e) => {
-      console.log(e.detail);
       this.setState({ units: e.detail, results: [], searched: false });
     });
   }
