@@ -1,5 +1,5 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
+@import 'https://js.arcgis.com/4.20/@arcgis/core/assets/esri/themes/light/main.css';
 :root {
   --main-bg-color: #E2FBF1;
 }
@@ -15,7 +15,6 @@ body,
   height: 100%;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  background: var(--main-bg-color);
 }
 
 a,

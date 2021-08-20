@@ -7,6 +7,19 @@
   "resolved" "https://registry.npmjs.org/@a11y/focus-trap/-/focus-trap-1.0.5.tgz"
   "version" "1.0.5"
 
+"@arcgis/core@^4.20.0":
+  "integrity" "sha512-LmHNLhJRBri5UpLfmfSFhQ7B3O/lq0B0Qtwkdy3gJUJ1DOZBfo0c5ezpSfqsHjTTDxTxSyMF5fl8Y1H4+UagZQ=="
+  "resolved" "https://registry.npmjs.org/@arcgis/core/-/core-4.20.2.tgz"
+  "version" "4.20.2"
+  dependencies:
+    "@esri/arcgis-html-sanitizer" "~2.6.1"
+    "@esri/calcite-colors" "~6.0.0"
+    "@esri/calcite-components" "1.0.0-beta.56"
+    "@popperjs/core" "~2.9.2"
+    "focus-trap" "~6.5.1"
+    "moment" "~2.29.1"
+    "sortablejs" "~1.13.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.5.5":
   "integrity" "sha512-HV1Cm0Q3ZrpCR93tkWOYiuYIgLxZXZFVG2VgK+MBWjUqZTundupbfx2aXarXuw5Ko5aMcjtJgbSs4vUGBS5v6g=="
   "resolved" "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.12.13.tgz"
@@ -1236,6 +1249,19 @@
     "minimatch" "^3.0.4"
     "strip-json-comments" "^3.1.1"
 
+"@esri/arcgis-html-sanitizer@~2.6.1":
+  "integrity" "sha512-dB0kFaRxIh4YSR6P5+jhkRm1UD4HxnexSOz3D1sgDiTq41YgWezMSIrifO/M83JwpTKd0U28qEf8hKepmldvZg=="
+  "resolved" "https://registry.npmjs.org/@esri/arcgis-html-sanitizer/-/arcgis-html-sanitizer-2.6.1.tgz"
+  "version" "2.6.1"
+  dependencies:
+    "lodash.isplainobject" "^4.0.6"
+    "xss" "^1.0.9"
+
+"@esri/calcite-colors@~6.0.0":
+  "integrity" "sha512-iGUIIpeMCJSTDGw4ZsxLwwxkml0QzOUJTtysjRryGbhSt183NEtwWKS+yQO19utXQz5LbQWjoav6x6CsawElkw=="
+  "resolved" "https://registry.npmjs.org/@esri/calcite-colors/-/calcite-colors-6.0.1.tgz"
+  "version" "6.0.1"
+
 "@esri/calcite-components-react@^0.3.0":
   "integrity" "sha512-W6c/HLHSg88MSLAgKbUa039cQo4XcdwrRkoJYfR7I6CUOFSd5qpyyBfH83IbDaTYUZ+7EqZcClXLVVbIaTvjtw=="
   "resolved" "https://registry.npmjs.org/@esri/calcite-components-react/-/calcite-components-react-0.3.0.tgz"
@@ -1255,6 +1281,19 @@
     "color" "4.0.1"
     "lodash-es" "4.17.21"
     "sortablejs" "1.14.0"
+
+"@esri/calcite-components@1.0.0-beta.56":
+  "integrity" "sha512-p3p796uJ85IqlFmkEVKmDPZGEdHWFxRilLmz6aS2nVDWx3sAD4oct9FYuV+jT6JWQBDBG/Y4YRgTS+F9SwWlLg=="
+  "resolved" "https://registry.npmjs.org/@esri/calcite-components/-/calcite-components-1.0.0-beta.56.tgz"
+  "version" "1.0.0-beta.56"
+  dependencies:
+    "@a11y/focus-trap" "1.0.5"
+    "@popperjs/core" "2.9.2"
+    "@stencil/core" "2.6.0"
+    "@types/color" "3.0.1"
+    "color" "3.1.3"
+    "lodash-es" "4.17.21"
+    "sortablejs" "1.13.0"
 
 "@hapi/address@2.x.x":
   "integrity" "sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ=="
@@ -1527,6 +1566,11 @@
     "schema-utils" "^2.6.5"
     "source-map" "^0.7.3"
 
+"@popperjs/core@~2.9.2", "@popperjs/core@2.9.2":
+  "integrity" "sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q=="
+  "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.9.2.tgz"
+  "version" "2.9.2"
+
 "@popperjs/core@2.9.3":
   "integrity" "sha512-xDu17cEfh7Kid/d95kB6tZsLOmSWKCZKtprnhVepjsSaCij+lM3mItSJDuuHDMbCWTh8Ejmebwb+KONcCJ0eXQ=="
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.9.3.tgz"
@@ -1788,6 +1832,13 @@
   "integrity" "sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ=="
   "resolved" "https://registry.npmjs.org/@types/color-name/-/color-name-1.1.1.tgz"
   "version" "1.1.1"
+
+"@types/color@3.0.1":
+  "integrity" "sha512-oeUWVaAwI+xINDUx+3F2vJkl/vVB03VChFF/Gl3iQCdbcakjuoJyMOba+3BXRtnBhxZ7uBYqQBi9EpLnvSoztA=="
+  "resolved" "https://registry.npmjs.org/@types/color/-/color-3.0.1.tgz"
+  "version" "3.0.1"
+  dependencies:
+    "@types/color-convert" "*"
 
 "@types/color@3.0.2":
   "integrity" "sha512-INiJl6sfNn8iyC5paxVzqiVUEj2boIlFki02uRTAkKwAj++7aAF+ZfEv/XrIeBa0XI/fTZuDHW8rEEcEVnON+Q=="
@@ -3506,7 +3557,7 @@
     "color-name" "^1.0.0"
     "simple-swizzle" "^0.2.2"
 
-"color@^3.0.0":
+"color@^3.0.0", "color@3.1.3":
   "integrity" "sha512-xgXAcTHa2HeFCGLE9Xs/R82hujGtu9Jd9x4NW3T34+OMs7VoPsjwzRczKHvTAHeJwWFwX5j15+MgAppE8ztObQ=="
   "resolved" "https://registry.npmjs.org/color/-/color-3.1.3.tgz"
   "version" "3.1.3"
@@ -3534,7 +3585,7 @@
   dependencies:
     "delayed-stream" "~1.0.0"
 
-"commander@^2.20.0":
+"commander@^2.20.0", "commander@^2.20.3":
   "integrity" "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
   "resolved" "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   "version" "2.20.3"
@@ -3937,6 +3988,11 @@
   "integrity" "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg=="
   "resolved" "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz"
   "version" "3.0.0"
+
+"cssfilter@0.0.10":
+  "integrity" "sha1-xtJnJjKi5cg+AT5oZKQs6N79IK4="
+  "resolved" "https://registry.npmjs.org/cssfilter/-/cssfilter-0.0.10.tgz"
+  "version" "0.0.10"
 
 "cssnano-preset-default@^4.0.7":
   "integrity" "sha512-x0YHHx2h6p0fCl1zY9L9roD7rnlltugGu7zXSKQx6k2rYw0Hi3IqxcoAGF7u9Q5w1nt7vK0ulxV8Lo+EvllGsA=="
@@ -4865,11 +4921,6 @@
   dependencies:
     "estraverse" "^5.2.0"
 
-"esri-loader@^3.2.0":
-  "integrity" "sha512-9UANUR5603YvKkjOxo+LLGtmiZBXvdJOb7MEGpKAmgsKEStleQW28xqyQolvQVXGgPJu2XLMzrPf6Xu8n1QOAQ=="
-  "resolved" "https://registry.npmjs.org/esri-loader/-/esri-loader-3.2.0.tgz"
-  "version" "3.2.0"
-
 "estraverse@^4.1.1", "estraverse@^4.2.0":
   "integrity" "sha512-39nnKffWz8xN1BU/2c79n9nB9HDzo0niYUqx6xyqUnyoAnQyyWpOTdZEeiCch8BBu515t4wp9ZmgVfVhn9EBpw=="
   "resolved" "https://registry.npmjs.org/estraverse/-/estraverse-4.3.0.tgz"
@@ -5263,6 +5314,13 @@
   dependencies:
     "inherits" "^2.0.3"
     "readable-stream" "^2.3.6"
+
+"focus-trap@~6.5.1":
+  "integrity" "sha512-q57JebeQXVThn9DWvWLP2rUwuArvk8w3PyqZLSddto0thmVmklFzYJQO97Aq3pUcWkTXjflUa88fT0CrASsaHQ=="
+  "resolved" "https://registry.npmjs.org/focus-trap/-/focus-trap-6.5.1.tgz"
+  "version" "6.5.1"
+  dependencies:
+    "tabbable" "^5.2.0"
 
 "follow-redirects@^1.0.0":
   "integrity" "sha512-6mPTgLxYm3r6Bkkg0vNM0HTjfGrOEtsfbhagQvbxDEsEkpNhw582upBaoRZylzen6krEmxXJgt9Ju6HiI4O7BA=="
@@ -7187,6 +7245,11 @@
   "resolved" "https://registry.npmjs.org/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz"
   "version" "3.0.0"
 
+"lodash.isplainobject@^4.0.6":
+  "integrity" "sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs="
+  "resolved" "https://registry.npmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz"
+  "version" "4.0.6"
+
 "lodash.memoize@^4.1.2":
   "integrity" "sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4="
   "resolved" "https://registry.npmjs.org/lodash.memoize/-/lodash.memoize-4.1.2.tgz"
@@ -7560,6 +7623,11 @@
   "integrity" "sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw=="
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
+
+"moment@~2.29.1":
+  "integrity" "sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ=="
+  "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
+  "version" "2.29.1"
 
 "move-concurrently@^1.0.1":
   "integrity" "sha1-viwAX9oy4LKa8fBdfEszIUxwH5I="
@@ -10269,6 +10337,11 @@
   dependencies:
     "is-plain-obj" "^1.0.0"
 
+"sortablejs@~1.13.0", "sortablejs@1.13.0":
+  "integrity" "sha512-RBJirPY0spWCrU5yCmWM1eFs/XgX2J5c6b275/YyxFRgnzPhKl/TDeU2hNR8Dt7ITq66NRPM4UlOt+e5O4CFHg=="
+  "resolved" "https://registry.npmjs.org/sortablejs/-/sortablejs-1.13.0.tgz"
+  "version" "1.13.0"
+
 "sortablejs@1.14.0":
   "integrity" "sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w=="
   "resolved" "https://registry.npmjs.org/sortablejs/-/sortablejs-1.14.0.tgz"
@@ -10747,6 +10820,11 @@
   "integrity" "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw=="
   "resolved" "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz"
   "version" "3.2.4"
+
+"tabbable@^5.2.0":
+  "integrity" "sha512-40pEZ2mhjaZzK0BnI+QGNjJO8UYx9pP5v7BGe17SORTO0OEuuaAwQTkAp8whcZvqon44wKFOikD+Al11K3JICQ=="
+  "resolved" "https://registry.npmjs.org/tabbable/-/tabbable-5.2.1.tgz"
+  "version" "5.2.1"
 
 "table@^6.0.4":
   "integrity" "sha512-rxZevLGTUzWna/qBLObOe16kB2RTnnbhciwgPbMMlazz1yZGVEgnZK762xyVdVznhqxrfCeBMmMkgOOaPwjH7g=="
@@ -11800,6 +11878,14 @@
   "integrity" "sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw=="
   "resolved" "https://registry.npmjs.org/xmlchars/-/xmlchars-2.2.0.tgz"
   "version" "2.2.0"
+
+"xss@^1.0.9":
+  "integrity" "sha512-2t7FahYnGJys6DpHLhajusId7R0Pm2yTmuL0GV9+mV0ZlaLSnb2toBmppATfg5sWIhZQGlsTLoecSzya+l4EAQ=="
+  "resolved" "https://registry.npmjs.org/xss/-/xss-1.0.9.tgz"
+  "version" "1.0.9"
+  dependencies:
+    "commander" "^2.20.3"
+    "cssfilter" "0.0.10"
 
 "xtend@^4.0.0", "xtend@~4.0.1":
   "integrity" "sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ=="
