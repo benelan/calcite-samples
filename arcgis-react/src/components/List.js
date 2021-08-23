@@ -1,44 +1,31 @@
-import React, { memo } from "react";
-import {
-  CalciteList,
-  CalciteListItem,
-} from "@esri/calcite-components-react";
-import VirtualScroll from "./VirtualScroll";
+import React from "react";
+import { CalciteList, CalciteListItem } from "@esri/calcite-components-react";
 
 export default class List extends React.Component {
   render() {
-    const Item = memo(({ index }) => (
-      <>
-        <CalciteListItem
-          style={{ marginBottom: "5px", height: "60px" }}
-          label={this.props.results[index].attributes.NAME}
-          description={`${
-            Math.round(
-              (this.props.results[index].attributes.dist + Number.EPSILON) * 100
-            ) / 100
-          } ${this.props.units}`}
-          onClick={() => {
-            this.props.onSelection(this.props.results[index]);
-          }}
-        >
-          {/* <CalciteLink
+    const listItems = this.props.results.map((item) => (
+      <CalciteListItem
+        style={{ marginBottom: "5px", height: "60px" }}
+        label={item.attributes.NAME}
+        description={`${
+          Math.round((item.attributes.dist + Number.EPSILON) * 100) / 100
+        } ${this.props.units}`}
+        onClick={() => {
+          this.props.onSelection(item);
+        }}
+      >
+        {/* <CalciteLink
             slot="actions-end"
-            href={`https://maps.google.com/maps?daddr=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}&amp;ll=`}
+            href={`https://maps.google.com/maps?daddr=${item.geometry.latitude},${item.geometry.longitude}&amp;ll=`}
           >
             Directions
           </CalciteLink> */}
-        </CalciteListItem>
-      </>
+      </CalciteListItem>
     ));
 
     return (
-      <CalciteList selection-follows-focus>
-        <VirtualScroll
-          itemCount={this.props.results.length}
-          height={this.props.h}
-          childHeight={65}
-          Item={Item}
-        />
+      <CalciteList selection-follows-focus style={{ overflowY: "auto" }}>
+        {listItems}
       </CalciteList>
     );
   }
