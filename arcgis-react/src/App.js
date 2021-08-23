@@ -29,13 +29,6 @@ export default class App extends React.Component {
     // set height depending on how big the window is
     const height = this.divElement.clientHeight;
     this.setState({ height });
-
-    window.addEventListener("calciteInputInput", (e) => {
-      this.setState({ radius: e.target.value, results: [], searched: false });
-    });
-    window.addEventListener("calciteRadioGroupChange", (e) => {
-      this.setState({ units: e.detail, results: [], searched: false });
-    });
   }
 
   handleResultsChange(r) {
@@ -68,13 +61,32 @@ export default class App extends React.Component {
               >
                 <CalciteLabel>
                   Radius
-                  <CalciteInput type="number" value={radius}></CalciteInput>
+                  <CalciteInput
+                    type="number"
+                    value={radius}
+                    onCalciteInputInput={(e) =>
+                      this.setState({
+                        radius: e.target.value,
+                        results: [],
+                        searched: false,
+                      })
+                    }
+                  ></CalciteInput>
                 </CalciteLabel>
               </div>
               <div style={{ display: "inline-block" }}>
                 <CalciteLabel>
                   Units
-                  <CalciteRadioGroup id="radio-group">
+                  <CalciteRadioGroup
+                    id="radio-group"
+                    onCalciteRadioGroupChange={(e) =>
+                      this.setState({
+                        units: e.detail,
+                        results: [],
+                        searched: false,
+                      })
+                    }
+                  >
                     <CalciteRadioGroupItem value="miles">
                       Miles
                     </CalciteRadioGroupItem>
@@ -103,7 +115,8 @@ export default class App extends React.Component {
             <div style={{ marginLeft: ".5rem" }}>
               {searched ? ( // if there are results show the total
                 <p>
-                  There is a total of <b>{results.length}</b> nursing homes within{" "}
+                  There is a total of <b>{results.length}</b> nursing homes
+                  within{" "}
                   <b>
                     {radius} {units}
                   </b>
@@ -122,7 +135,14 @@ export default class App extends React.Component {
               onSelection={this.handleSelection}
             />
           </CalciteShellPanel>
-          <footer slot="footer" style={{marginLeft: '.25rem', fontSize:"10px"}}>Oak Ridge National Laboratory (ORNL), National Geospatial-Intelligence Agency (NGA) Homeland Security Infrastructure Program (HSIP) Team</footer>
+          <footer
+            slot="footer"
+            style={{ marginLeft: ".25rem", fontSize: "10px" }}
+          >
+            Oak Ridge National Laboratory (ORNL), National
+            Geospatial-Intelligence Agency (NGA) Homeland Security
+            Infrastructure Program (HSIP) Team
+          </footer>
         </CalciteShell>
       </div>
     );
