@@ -19,16 +19,9 @@ export default class App extends React.Component {
       radius: 15,
       units: "miles",
       results: [], // search features
-      height: 0, // of the browser window
       searched: false, // populate list?
       selected: {}, // featured clicked on from search widget. Zooms to the point on the map
     };
-  }
-
-  componentDidMount() {
-    // set height depending on how big the window is
-    const height = this.divElement.clientHeight;
-    this.setState({ height });
   }
 
   handleResultsChange(r) {
@@ -43,12 +36,6 @@ export default class App extends React.Component {
   render() {
     const { radius, units, results, selected, searched, height } = this.state;
     return (
-      <div
-        style={{ height: "80vh" }}
-        ref={(divElement) => {
-          this.divElement = divElement;
-        }}
-      >
         <CalciteShell dir="ltr" class="calcite-theme-light">
           <header style={{ marginLeft: "1rem" }} slot="header">
             <div style={{ margin: ".25rem" }}>
@@ -102,7 +89,6 @@ export default class App extends React.Component {
             radius={radius}
             units={units}
             onResultsChange={this.handleResultsChange}
-            h={height}
             selected={selected}
           />
           <CalciteShellPanel
@@ -131,7 +117,6 @@ export default class App extends React.Component {
               results={results}
               radius={radius}
               units={units}
-              h={height}
               onSelection={this.handleSelection}
             />
           </CalciteShellPanel>
@@ -144,7 +129,6 @@ export default class App extends React.Component {
             Infrastructure Program (HSIP) Team
           </footer>
         </CalciteShell>
-      </div>
     );
   }
 }
