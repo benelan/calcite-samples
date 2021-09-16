@@ -34,7 +34,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { radius, units, results, selected, searched, height } = this.state;
+    const { radius, units, results, selected, searched } = this.state;
     return (
         <CalciteShell dir="ltr" class="calcite-theme-light">
           <header style={{ marginLeft: "1rem" }} slot="header">
@@ -74,10 +74,16 @@ export default class App extends React.Component {
                       })
                     }
                   >
-                    <CalciteRadioGroupItem value="miles">
+                    <CalciteRadioGroupItem
+                    value="miles"
+                    {...(units === "miles" ? { checked: true } : {})}
+                    >
                       Miles
                     </CalciteRadioGroupItem>
-                    <CalciteRadioGroupItem value="kilometers">
+                    <CalciteRadioGroupItem
+                    value="kilometers"
+                    {...(units === "kilometers" ? { checked: true } : {})}
+                    >
                       Kilometers
                     </CalciteRadioGroupItem>
                   </CalciteRadioGroup>
