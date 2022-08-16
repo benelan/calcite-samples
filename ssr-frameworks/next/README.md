@@ -1,8 +1,8 @@
 # Calcite Components in Next
 
-**This is experimental and a lot of stuff is not working. Use at your own risk!**
+**This is experimental. Use at your own risk!**
 
-Next has pre-rendering options, which is set up in `server.js`. As of now, assets aren't showing up while pre-rendering. Everything works when running `npm run dev`. However, it forces everything to render on the client, which defeats the purpose of using Next.
+Stencil/Next pre-rendering is set up in `server.js`.
 
 ---
 

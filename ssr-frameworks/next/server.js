@@ -12,6 +12,7 @@ app.prepare().then(() => {
 
   // static assets
   server.get("/_next/*", handle);
+  server.get("/assets/*", handle);
 
   server.all("*", async (req, res) => {
     const html = await app.renderToHTML(req, res, req.path, req.query);
