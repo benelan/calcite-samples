@@ -25,10 +25,7 @@ app.prepare().then(() => {
   server.all("*", async (req, res) => {
     const html = await app.renderToHTML(req, res, req.path, req.query);
     const renderedHtml = await stencil.renderToString(html);
-    if (renderedHtml) {
-      res.write(renderedHtml.html);
-      return res.end();
-    }
+    res.send(renderedHtml.html);
   });
 
   server.listen(port, (err) => {
@@ -53,8 +50,7 @@ app.prepare().then(() => {
 //       } else {
 //         const html = await app.renderToHTML(req, res, pathname, query);
 //         const renderedHtml = await stencil.renderToString(html);
-//         res.write(renderedHtml.html);
-//         res.end();
+//         res.render(renderedHtml.html);
 //       }
 //     } catch (err) {
 //       console.error("Error occurred handling", req.url, err);

@@ -1,6 +1,6 @@
 # Calcite Components in Next.js
 
-This is experimental, use at your own risk!
+__This is experimental, use at your own risk!__
 
 The sample demonstrates using Calcite Components (web components) in Next.js (SSG/SSR). The following resources were used to create this sample:
 
