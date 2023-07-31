@@ -14,7 +14,9 @@ function Calcite() {
       );
       setAssetPath(window.location.href);
 
-      await import("@esri/calcite-components/dist/components/calcite-date-picker");
+      await import(
+        "@esri/calcite-components/dist/components/calcite-date-picker"
+      );
       await import("@esri/calcite-components/dist/components/calcite-button");
       await import("@esri/calcite-components/dist/components/calcite-icon");
       await import("@esri/calcite-components/dist/components/calcite-slider");
@@ -48,6 +50,11 @@ function Calcite() {
         <li>
           <a href="https://goulet.dev/posts/consuming-web-component-react-typescript/">
             TypeScript hack for using web components in React
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/jagreehal/nextjs-stenciljs-ssr-example">
+            Example of Stencil components in Next.js
           </a>
         </li>
       </ol>

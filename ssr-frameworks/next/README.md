@@ -7,6 +7,7 @@ The sample demonstrates using Calcite Components (web components) in Next.js (SS
 - [Stencil hydrate app](https://stenciljs.com/docs/v2/hydrate-app)
 - [Next.js custom server](https://nextjs.org/docs/pages/building-your-application/configuring/custom-server)
 - [TypeScript hack for using web components in React](https://goulet.dev/posts/consuming-web-component-react-typescript/)
+- [Example of Stencil components in Next.js](https://github.com/jagreehal/nextjs-stenciljs-ssr-example)
 
 The prerender magic happens in [server.js](./server.js), which you can run with:
 
