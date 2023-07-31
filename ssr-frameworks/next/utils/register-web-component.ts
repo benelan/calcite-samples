@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { JSX as LocalJSX } from "@esri/calcite-components/dist/components";
+import { JSX as LocalJSX } from "@esri/calcite-components";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 type StencilProps<T> = {
