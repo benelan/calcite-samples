@@ -14,8 +14,8 @@ const Calcite = () => {
           </a>
         </li>
         <li>
-          <a href="https://nextjs.org/docs/pages/building-your-application/configuring/custom-server">
-            Next.js custom server
+          <a href="https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props">
+            Next.js getStaticProps
           </a>
         </li>
         <li>

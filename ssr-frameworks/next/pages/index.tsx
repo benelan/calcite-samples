@@ -1,27 +1,19 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { GetStaticProps } from "next";
 import { prerender } from "../utils/prerender-component";
 import Calcite from "../components/Calcite";
 
-interface IndexProps {
-  prerenderHTML?: string;
-  prerenderData?: { [key: string]: any };
-}
-
-const Index: NextPage<IndexProps> = (props) => {
+const Index = ({ prerenderHTML }) => {
   return (
     <main className="p-5">
-      <div dangerouslySetInnerHTML={{ __html: props.prerenderHTML }} />
+      <div dangerouslySetInnerHTML={{ __html: prerenderHTML }} />
     </main>
   );
 };
 
-export const getStaticProps: GetStaticProps<IndexProps> = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const res = await prerender(Calcite());
   return {
-    props: {
-      prerenderHTML: res.prerenderHTML,
-      prerenderData: res.prerenderData,
-    },
+    props: { prerenderHTML: res.prerenderHTML },
     revalidate: 10,
   };
 };

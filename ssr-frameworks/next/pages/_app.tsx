@@ -15,7 +15,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       await import(
         "@esri/calcite-components/dist/components/calcite-date-picker"
       );
-      await import("@esri/calcite-components/dist/components/calcite-button");
       await import("@esri/calcite-components/dist/components/calcite-icon");
       await import("@esri/calcite-components/dist/components/calcite-slider");
     }

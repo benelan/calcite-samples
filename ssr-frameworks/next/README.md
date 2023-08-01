@@ -5,7 +5,7 @@
 The sample demonstrates using Calcite Components (web components) in Next.js (SSG/SSR). The following resources were used to create this sample:
 
 - [Stencil hydrate app](https://stenciljs.com/docs/v2/hydrate-app)
-- [Next.js custom server](https://nextjs.org/docs/pages/building-your-application/configuring/custom-server)
+- [Next.js `getStaticProps`](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props)
 - [TypeScript hack for using web components in React](https://goulet.dev/posts/consuming-web-component-react-typescript/)
 - [Example of Stencil components in Next.js](https://github.com/jagreehal/nextjs-stenciljs-ssr-example)
 
