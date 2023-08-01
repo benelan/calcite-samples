@@ -1,6 +1,6 @@
 # Calcite Components in Next.js
 
-__This is experimental, use at your own risk!__
+**This is experimental, use at your own risk!**
 
 The sample demonstrates using Calcite Components (web components) in Next.js (SSG/SSR). The following resources were used to create this sample:
 
@@ -9,13 +9,7 @@ The sample demonstrates using Calcite Components (web components) in Next.js (SS
 - [TypeScript hack for using web components in React](https://goulet.dev/posts/consuming-web-component-react-typescript/)
 - [Example of Stencil components in Next.js](https://github.com/jagreehal/nextjs-stenciljs-ssr-example)
 
-The prerender magic happens in [server.js](./server.js), which you can run with:
-
-```sh
-npm run server
-```
-
-The app relies on dynamic imports to prevent build errors and can run via the steps below, but the [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) is pretty bad.
+The prerender magic happens in [`getStaticProps`](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props). Unfortunately, this workflow makes state management difficult. You'll likely need a data store that can be accessed on both the client and server ([e.g. via Redux](https://redux.js.org/usage/server-rendering))
 
 ---
 
