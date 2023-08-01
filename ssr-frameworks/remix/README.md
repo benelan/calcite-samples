@@ -2,13 +2,13 @@
 
 **This is experimental and a lot of stuff is not working. Use at your own risk!**
 
-Remix does not support pre-rendering at this time, but they have [an open issue discussing it](https://github.com/remix-run/remix/issues/179). Go give it a thumbs up!
+Remix does not support pre-rendering at this time, but they have [an open GitHub Discussion thread](https://github.com/remix-run/remix/discussions/2853). Go give it a thumbs up!
 
-I was able to get the components to render on the client, but that defeats the purpose of an SSR framework. The better option is to use NextJS or another framework that supports pre-rendering until Remix does too.
+I was able to get the components to render on the client, but that defeats the purpose of an SSR framework. The better option is to use Next.js or another framework that supports pre-rendering until Remix does too.
 
-### Relevant code
+## Relevant code
 
-In [`remix.config.js`](https://github.com/benelan/stencil-remix/blob/fix/remix.config.js):
+In [`remix.config.js`](./remix.config.js) the Calcite Components dependencies need to be bundled for the server:
 
 ```js
 module.exports = {
@@ -19,41 +19,31 @@ module.exports = {
   ],
 };
 ```
-In [`app/routes/index.jsx`](https://github.com/benelan/stencil-remix/blob/fix/app/routes/index.jsx):
 
-```jsx
-import { useEffect } from "react";
-import {
-  CalciteButton,
-  CalciteIcon,
-  CalciteSlider,
-} from "@esri/calcite-components-react";
-import styles from "@esri/calcite-components/dist/calcite/calcite.css";
+In [`app/routes/index.jsx`](./app/routes/index.jsx) the web components need to be registered using dynamic imports:
 
-export function links() {
-  return [{ rel: "stylesheet", href: styles }];
-}
-
-function Index() {
-   useEffect(() => {
-    import("@esri/calcite-components/dist/components").then(
-      ({ setAssetPath }) =>
-        setAssetPath(
-          "https://unpkg.com/@esri/calcite-components/dist/calcite/assets"
-        )
+```js
+useEffect(() => {
+  async function registerComponents() {
+    const { setAssetPath } = await import(
+      "@esri/calcite-components/dist/components"
+    );
+    setAssetPath(
+      "https://unpkg.com/@esri/calcite-components/dist/calcite/assets"
     );
 
-    import("@esri/calcite-components/dist/components/calcite-button.js");
-    import("@esri/calcite-components/dist/components/calcite-icon.js");
-    import("@esri/calcite-components/dist/components/calcite-slider.js");
-  }, []);
-
-  return (
-    ...
+    await import("@esri/calcite-components/dist/components/calcite-button");
+    await import("@esri/calcite-components/dist/components/calcite-icon");
+    await import("@esri/calcite-components/dist/components/calcite-slider");
+    await import(
+      "@esri/calcite-components/dist/components/calcite-date-picker"
+    );
+  }
+  registerComponents();
+}, []);
 ```
 
 ---
-
 
 - [Remix Docs](https://remix.run/docs)
 
