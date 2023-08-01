@@ -1,33 +1,4 @@
-"use client";
-
-import React, { useState, useEffect, useRef } from "react";
-import "@esri/calcite-components/dist/calcite/calcite.css";
-
-function Calcite() {
-  const [sliderValue, setSliderValue] = useState(50);
-  const sliderEl = useRef(null);
-
-  useEffect(() => {
-    async function registerComponents() {
-      const { setAssetPath } = await import(
-        "@esri/calcite-components/dist/components"
-      );
-      setAssetPath(window.location.href);
-
-      await import(
-        "@esri/calcite-components/dist/components/calcite-date-picker"
-      );
-      await import("@esri/calcite-components/dist/components/calcite-button");
-      await import("@esri/calcite-components/dist/components/calcite-icon");
-      await import("@esri/calcite-components/dist/components/calcite-slider");
-    }
-    registerComponents();
-
-    sliderEl.current.addEventListener("calciteSliderInput", ({ target }) =>
-      setSliderValue(target.value)
-    );
-  }, [sliderEl]);
-
+const Calcite = () => {
   return (
     <>
       <h1 className="font-bold text-3xl">
@@ -62,20 +33,13 @@ function Calcite() {
       <calcite-slider
         min={1}
         max={100}
-        value={sliderValue}
+        value={50}
         step={1}
-        ref={sliderEl}
         suppressHydrationWarning={true}
       />
-      <p>The slider currently has a value of {sliderValue}.</p>
-      <calcite-button
-        onClick={() => setSliderValue(0)}
-        suppressHydrationWarning={true}
-      >
-        Clear
-      </calcite-button>
+      <calcite-date-picker></calcite-date-picker>
     </>
   );
-}
+};
 
 export default Calcite;

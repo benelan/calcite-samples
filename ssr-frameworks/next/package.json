@@ -7,7 +7,6 @@
     "build": "next build",
     "lint": "next lint",
     "start": "next start",
-    "server": "npm run build && NODE_ENV=production node server.js",
     "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets/ ./public/assets/",
     "postinstall": "npm run copy"
   },
