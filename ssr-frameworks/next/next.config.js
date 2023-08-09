@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  transpilePackages: [
+    "@stencil/core",
+    "@esri/calcite-components",
+    "@esri/calcite-components-react",
+  ],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

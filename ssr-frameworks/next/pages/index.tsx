@@ -1,3 +1,5 @@
+// "use client";
+
 import type { GetStaticProps } from "next";
 import { prerender } from "../utils/prerender-component";
 import Calcite from "../components/Calcite";

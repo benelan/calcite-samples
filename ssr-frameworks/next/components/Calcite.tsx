@@ -1,12 +1,32 @@
-const Calcite = () => {
+import React, { useState } from "react";
+import {
+  CalciteButton,
+  CalciteDatePicker,
+  CalciteIcon,
+  CalciteSlider,
+} from "@esri/calcite-components-react";
+import "@esri/calcite-components/dist/calcite/calcite.css";
+import { setAssetPath } from "@esri/calcite-components/dist/components";
+setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+
+
+function Calcite() {
+  const [sliderValue, setSliderValue] = useState(50);
   return (
     <>
       <h1 className="font-bold text-3xl">
-        Next.js and Calcite Components
-        <calcite-icon icon="banana" suppressHydrationWarning={true} />
+        Calcite Components React in Next.js
+        <CalciteIcon icon="banana" suppressHydrationWarning={true} />
       </h1>
-      <p>This is my attempt to prerender calcite-components. Resources:</p>
 
+      <CalciteDatePicker suppressHydrationWarning={true} />
+
+      <p>
+        This sample demonstrates using Calcite Components React (wrapper for web
+        components) in Next.js (SSR/SSG). The components need to be imported
+        dynamically in useEffect because they rely on browser APIs. The
+        components are prerendered to help mitigate the FOUC. Resources:
+      </p>
       <ol>
         <li>
           <a href="https://stenciljs.com/docs/v2/hydrate-app">
@@ -30,16 +50,18 @@ const Calcite = () => {
         </li>
       </ol>
 
-      <calcite-slider
+      <CalciteSlider
         min={1}
         max={100}
-        value={50}
+        value={sliderValue}
         step={1}
-        suppressHydrationWarning={true}
+        onCalciteSliderInput={({ target: { value } }) =>
+          typeof value === "number" && setSliderValue(value)
+        }
       />
-      <calcite-date-picker></calcite-date-picker>
+      <CalciteButton onClick={() => setSliderValue(0)}>Clear</CalciteButton>
     </>
   );
-};
+}
 
 export default Calcite;
